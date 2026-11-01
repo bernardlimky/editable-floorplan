@@ -7,7 +7,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="theme-color" content="#fffdf9">
-<title>户型装修设计</title>
+<title>Block 151 Mock-up</title>
 <style>
 :root{
   --bg:#f3efe7; --paper:#f7f4ee; --panel:#fffdf9; --line:#e3dccf; --ink:#2b2824; --muted:#8a8174;
@@ -190,6 +190,19 @@ main.drawer-panel #fab{opacity:0;visibility:hidden}
   .range input{width:120px!important}
 }
 /* ---------- 竖屏 / 窄屏（如 iPad 竖握）：侧栏改为抽屉 ---------- */
+/* ---------- Mobile toolbar disclosure ---------- */
+#mobileToolbarToggle{display:none}
+@media (max-width:700px){
+  #mobileToolbarToggle{display:inline-flex;align-items:center;justify-content:center;width:42px;min-width:42px;padding:7px;font-size:20px;line-height:1}
+  header.mobile-toolbar-collapsed #paneBtns,
+  header.mobile-toolbar-collapsed #tools,
+  header.mobile-toolbar-collapsed #zoomControls,
+  header.mobile-toolbar-collapsed #historyControls,
+  header.mobile-toolbar-collapsed #layers,
+  header.mobile-toolbar-collapsed #fullscreen,
+  header.mobile-toolbar-collapsed #fileMenu,
+  header.mobile-toolbar-collapsed>.spacer{display:none!important}
+}
 /* ---------- 宽屏：左右面板可收起 ---------- */
 @media (min-width:1101px){
   .app{transition:grid-template-columns .3s cubic-bezier(.3,.7,.3,1)}
@@ -223,12 +236,13 @@ main.drawer-panel #fab{opacity:0;visibility:hidden}
 </head>
 <body>
 <div class="app">
-  <header>
+  <header class="mobile-toolbar-collapsed">
     <div class="grp" id="paneBtns">
       <button class="btn chip" id="tgLib" data-en="◧ Library">◧ 家具库</button>
       <button class="btn chip" id="tgPanel" data-en="Properties ◨">属性 ◨</button>
     </div>
-    <div class="brand"><b data-en="3BR 2LR 2BA · Interior Design">三室两厅两卫 · 装修设计</b><span id="subtitle">原始户型 1:60 · 尺寸单位 mm</span></div>
+    <div class="brand"><b data-en="Block 151 Mock-up">Block 151 Mock-up</b><span id="subtitle">原始户型 1:60 · 尺寸单位 mm</span></div>
+    <button class="btn" id="mobileToolbarToggle" type="button" aria-controls="paneBtns tools zoomControls historyControls layers fullscreen fileMenu" aria-expanded="false" aria-label="显示工具栏" title="显示工具栏">⌄</button>
     <div class="grp seg" id="viewSeg" title="切换 2D / 3D (T)" data-en-title="Switch 2D / 3D (T)">
       <span class="pill"></span>
       <button class="btn" data-view="2d" data-en="2D Plan">2D 平面</button>
@@ -239,7 +253,7 @@ main.drawer-panel #fab{opacity:0;visibility:hidden}
       <button class="btn" data-tool="measure" title="测量 (M)" data-en-title="Measure (M)" data-en="Measure">测量</button>
       <button class="btn" data-tool="demolish" title="拆改非承重墙 (X)" data-en-title="Demolish non-bearing walls (X)" data-en="Demolish">拆改墙体</button>
     </div>
-    <div class="grp only2d">
+    <div class="grp only2d" id="zoomControls">
       <button class="btn" id="zoomOut" title="缩小" data-en-title="Zoom out">−</button>
       <button class="btn" id="zoomIn" title="放大" data-en-title="Zoom in">＋</button>
       <button class="btn" id="fit" title="适应窗口 (F)" data-en-title="Fit to window (F)" data-en="Fit">适应</button>
@@ -254,7 +268,7 @@ main.drawer-panel #fab{opacity:0;visibility:hidden}
       <button class="btn" id="vIso" data-en="Iso">斜视</button>
       <button class="btn" id="vTop" data-en="Top">俯视</button>
     </div>
-    <div class="grp">
+    <div class="grp" id="historyControls">
       <button class="btn" id="undo" title="撤销 (Ctrl+Z)" data-en-title="Undo (Ctrl+Z)" data-en="Undo">撤销</button>
       <button class="btn" id="redo" title="重做 (Ctrl+Shift+Z)" data-en-title="Redo (Ctrl+Shift+Z)" data-en="Redo">重做</button>
       <button class="btn danger" id="clearAll" title="清空所有家具家电（可撤销）" data-en-title="Remove all furniture and appliances (undoable)" data-en="Clear">清空布置</button>
@@ -284,7 +298,7 @@ main.drawer-panel #fab{opacity:0;visibility:hidden}
       <button class="btn chip" data-lang="en" title="English">EN</button>
     </div>
     <button class="btn" id="fullscreen" title="全屏 (Shift+F)" style="border:1px solid var(--line);background:#fff">⛶ 全屏</button>
-    <details class="menu"><summary class="btn" data-en="File ▾">文件 ▾</summary>
+    <details class="menu" id="fileMenu"><summary class="btn" data-en="File ▾">文件 ▾</summary>
       <div class="menu-pop">
         <button class="btn" id="exportPng" data-en="Export image">导出图片</button>
         <button class="btn" id="exportJson" data-en="Export plan JSON">导出方案 JSON</button>
@@ -1237,7 +1251,7 @@ const nm = s => LANG === 'en' ? (NAMES_EN[s] ?? s) : LANG === 'zht' ? s2t(s) : s
 // 静态文案：元素上写 data-en / data-en-title，中文原文首次切换时存进 dataset
 function applyStaticLang(){
   document.documentElement.lang = {zh:'zh-CN', zht:'zh-TW', en:'en'}[LANG];
-  document.title = tr('户型装修设计', 'Floor Plan Designer');
+  document.title = 'Block 151 Mock-up';
   document.querySelectorAll('[data-en]').forEach(el => { el.dataset.zh ??= el.textContent; el.textContent = tr(el.dataset.zh, el.dataset.en); });
   document.querySelectorAll('[data-en-title]').forEach(el => { el.dataset.zhTitle ??= el.title; el.title = tr(el.dataset.zhTitle, el.dataset.enTitle); });
   document.querySelectorAll('#langSel [data-lang]').forEach(b => { const on = b.dataset.lang === LANG; b.classList.toggle('on', on); b.setAttribute('aria-pressed', on); });
@@ -2342,8 +2356,26 @@ $('#fullscreen').onclick = toggleFullscreen;
 if (navigator.standalone || matchMedia('(display-mode: standalone)').matches) $('#fullscreen').hidden = true;
 $('#tgLib').onclick = () => drawer('lib');
 $('#tgPanel').onclick = () => drawer('panel');
+const mobileToolbarQuery = matchMedia('(max-width:700px)');
+const mobileToolbarButton = $('#mobileToolbarToggle');
+function syncMobileToolbar(){
+  const collapsed = $('header').classList.contains('mobile-toolbar-collapsed');
+  const label = collapsed ? tr('显示工具栏', 'Show toolbar') : tr('隐藏工具栏', 'Hide toolbar');
+  mobileToolbarButton.textContent = collapsed ? '⌄' : '⌃';
+  mobileToolbarButton.setAttribute('aria-expanded', String(!collapsed));
+  mobileToolbarButton.setAttribute('aria-label', label);
+  mobileToolbarButton.title = label;
+}
+mobileToolbarButton.onclick = () => {
+  $('header').classList.toggle('mobile-toolbar-collapsed');
+  syncMobileToolbar();
+};
 // 触屏上点菜单以外的地方收起「文件」菜单
 document.addEventListener('pointerdown', e => { const m = $('details.menu'); if (m.open && !m.contains(e.target)) m.open = false; });
+mobileToolbarQuery.addEventListener('change', e => {
+  $('header').classList.toggle('mobile-toolbar-collapsed', e.matches);
+  syncMobileToolbar();
+});
 matchMedia('(max-width:1100px)').addEventListener('change', () => drawer(null));
 drawer(null);                                  // 恢复上次的面板收起状态
 $('#exportPng').onclick = exportPNG;
@@ -2370,7 +2402,7 @@ new ResizeObserver(() => {
 
 function setLang(l){
   LANG = l; try { localStorage.setItem(LANG_KEY, l); } catch(e) {}
-  applyStaticLang(); syncFullscreen(); syncModeHint(); syncPaneBtns();
+  applyStaticLang(); syncFullscreen(); syncModeHint(); syncPaneBtns(); syncMobileToolbar();
   buildLib(); renderOpenings(); renderAll();
   $('#tip').textContent = TIPS()[viewMode];
   window.View3D?.relang();
