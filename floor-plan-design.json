@@ -445,11 +445,11 @@
     },
     "bed2": {
       "name": "卧室 2",
-      "mat": "tile800"
+      "mat": "walnut"
     },
     "master": {
       "name": "主卧室",
-      "mat": "tile800"
+      "mat": "walnut"
     },
     "hall": {
       "name": "过道",
@@ -461,15 +461,15 @@
     },
     "living": {
       "name": "客厅",
-      "mat": "tile800"
+      "mat": "walnut"
     },
     "bed3": {
       "name": "卧室 3",
-      "mat": "tile800"
+      "mat": "walnut"
     },
     "balcony": {
       "name": "休闲阳台",
-      "mat": "walnut"
+      "mat": "tile600"
     }
   },
   "demolished": [],
